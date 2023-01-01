@@ -31,7 +31,7 @@ public class HelloController {
     private TextField searchText;
 
     @FXML
-    void OnActionSearch(ActionEvent event) {
+    public void OnActionSearch(ActionEvent event) {
 
     }
 
