@@ -38,6 +38,7 @@ public class HelloController implements Initializable {
 
             idLabel.setText("ID: " + pokeList.get(0).getId());
             nameLabel.setText("Name: " + pokeList.get(0).getName());
+            pokedexNumberLabel.setText("Pokedex Number: " + pokeList.get(0).getNationalPokedexNumbers());
             numberLabel.setText("Number: " + pokeList.get(0).getNumber());
             Image image = new Image(pokeList.get(0).getLargeImage());
             pokemonImage.setImage(image);
@@ -65,7 +66,6 @@ public class HelloController implements Initializable {
                 System.out.println(nationalPokedexNumbers.get(i));
             }
         }
-
         String number = (String) user.get("number");
         System.out.println(number);
 
@@ -74,8 +74,11 @@ public class HelloController implements Initializable {
         System.out.println(small);
         String large = (String) images.get("large");
         System.out.println(large);
-
-        pokeList.add(new PokemonManager(id, name, number, large));
+        String pokedexNumber = "NA";
+        if(nationalPokedexNumbers != null) {
+            pokedexNumber = nationalPokedexNumbers.toString();
+        }
+        pokeList.add(new PokemonManager(id, name, pokedexNumber, number, large));
     }
 
     @FXML
@@ -111,6 +114,7 @@ public class HelloController implements Initializable {
 
         idLabel.setText("ID: " + currentPokemon.getId());
         nameLabel.setText("Name: " + currentPokemon.getName());
+        pokedexNumberLabel.setText("Pokedex Number: " + currentPokemon.getNationalPokedexNumbers());
         numberLabel.setText("Number: " + currentPokemon.getNumber());
         Image image = new Image(currentPokemon.getLargeImage());
         pokemonImage.setImage(image);
