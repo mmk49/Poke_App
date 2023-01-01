@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class HelloApplication extends Application {
     @Override
@@ -24,49 +25,53 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader("pokemon-tcg-data\\cards\\en\\base1.json")) {
-            // Read JSON file
-            Object obj = jsonParser.parse(reader);
-
-            JSONArray userList = (JSONArray) obj;
-
-            // Iterate over employee array
-            userList.forEach(user -> parseUserObject((JSONObject) user));
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        ArrayList<PokemonManager> pokeList = new ArrayList<>();
+//
+//        JSONParser jsonParser = new JSONParser();
+//        try (FileReader reader = new FileReader("pokemon-tcg-data\\cards\\en\\base1.json")) {
+//            // Read JSON file
+//            Object obj = jsonParser.parse(reader);
+//
+//            JSONArray userList = (JSONArray) obj;
+//
+//            // Iterate over employee array
+//            userList.forEach(user -> parseUserObject((JSONObject) user, pokeList));
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
         launch();
     }
 
-    private static void parseUserObject(JSONObject user) {
-
-        String id = (String) user.get("id");
-        System.out.println(id);
-
-        String name = (String) user.get("name");
-        System.out.println(name);
-
-        JSONArray nationalPokedexNumbers = (JSONArray) user.get("nationalPokedexNumbers");
-        if(nationalPokedexNumbers != null) {
-            for (int i = 0; i < nationalPokedexNumbers.size(); i++) {
-                System.out.println(nationalPokedexNumbers.get(i));
-            }
-        }
-
-        String number = (String) user.get("number");
-        System.out.println(number);
-
-        JSONObject images = (JSONObject) user.get("images");
-        String small = (String) images.get("small");
-        System.out.println(small);
-        String large = (String) images.get("large");
-        System.out.println(large);
-    }
+//    private static void parseUserObject(JSONObject user, ArrayList<PokemonManager> pokeList) {
+//
+//        String id = (String) user.get("id");
+//        System.out.println(id);
+//
+//        String name = (String) user.get("name");
+//        System.out.println(name);
+//
+//        JSONArray nationalPokedexNumbers = (JSONArray) user.get("nationalPokedexNumbers");
+//        if(nationalPokedexNumbers != null) {
+//            for (int i = 0; i < nationalPokedexNumbers.size(); i++) {
+//                System.out.println(nationalPokedexNumbers.get(i));
+//            }
+//        }
+//
+//        String number = (String) user.get("number");
+//        System.out.println(number);
+//
+//        JSONObject images = (JSONObject) user.get("images");
+//        String small = (String) images.get("small");
+//        System.out.println(small);
+//        String large = (String) images.get("large");
+//        System.out.println(large);
+//
+//        pokeList.add(new PokemonManager(id, name, number, large));
+//    }
 }
