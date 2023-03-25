@@ -5,7 +5,6 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.poke_appv1.HelloController">
    <children>
       <ImageView fx:id="pokemonImage" fitHeight="250.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
@@ -41,10 +40,12 @@
             <Insets left="10.0" top="10.0" />
          </VBox.margin>
       </TextField>
-      <Button fx:id="searchButton" mnemonicParsing="false" onAction="#OnActionSearch" text="Search">
-         <VBox.margin>
-            <Insets left="10.0" top="10.0" />
-         </VBox.margin>
-      </Button>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0">
+        <buttons>
+            <Button fx:id="searchButton" mnemonicParsing="false" onAction="#OnActionSearch" text="Search" />
+            <Button fx:id="viewButton" mnemonicParsing="false" onAction="#OnActionView" text="View" />
+            <ComboBox fx:id="pokeCombo" prefWidth="150.0" />
+        </buttons>
+      </ButtonBar>
    </children>
 </VBox>
