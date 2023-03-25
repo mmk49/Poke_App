@@ -67,7 +67,7 @@ public class HelloController implements Initializable{
             }
         });
     }
-    private void test(String set) {
+    private void test(String set, boolean checkCards) {
         pokeList = new ArrayList<>();
 
         JSONParser jsonParser = new JSONParser();
@@ -80,7 +80,7 @@ public class HelloController implements Initializable{
             JSONArray userList = (JSONArray) obj;
 
             // Iterate over employee array
-            userList.forEach(user -> parseUserObject((JSONObject) user, pokeList));
+            userList.forEach(user -> parseUserObject((JSONObject) user, pokeList, checkCards));
 
 //            idLabel.setText("ID: " + pokeList.get(0).getId());
 //            nameLabel.setText("Name: " + pokeList.get(0).getName());
@@ -98,7 +98,7 @@ public class HelloController implements Initializable{
         }
     }
 
-    private static void parseUserObject(JSONObject user, ArrayList<PokemonManager> pokeList) {
+    private static void parseUserObject(JSONObject user, ArrayList<PokemonManager> pokeList, boolean checkCards) {
 
         String id = (String) user.get("id");
         System.out.println(id);
@@ -116,15 +116,23 @@ public class HelloController implements Initializable{
         System.out.println(number);
 
         JSONObject images = (JSONObject) user.get("images");
-        String small = (String) images.get("small");
-        System.out.println(small);
+        //String small = (String) images.get("small");
+        //System.out.println(small);
         String large = (String) images.get("large");
         System.out.println(large);
         String pokedexNumber = "NA";
         if(nationalPokedexNumbers != null) {
             pokedexNumber = nationalPokedexNumbers.toString();
+            pokedexNumber = pokedexNumber.substring(1, pokedexNumber.length() - 1);
         }
-        pokeList.add(new PokemonManager(id, name, pokedexNumber, number, large));
+        System.out.println(pokedexNumber);
+        if(checkCards == true) {
+            boolean hasCard = (boolean) user.get("hasCard");
+            pokeList.add(new PokemonManager(id, name, pokedexNumber, number, large, hasCard));
+        } else {
+            pokeList.add(new PokemonManager(id, name, pokedexNumber, number, large, false));
+        }
+//        pokeList.add(new PokemonManager(id, name, pokedexNumber, number, large, false));
     }
 
     @FXML
@@ -153,7 +161,7 @@ public class HelloController implements Initializable{
     @FXML
     public void OnActionSearch(ActionEvent event) {
         if(pokeList == null) {
-            test("base1.json");
+            test("base1.json", false);
         }
         String pokemonName = searchText.getText();
         PokemonManager currentPokemon = pokeList.get(0);
@@ -341,7 +349,8 @@ public class HelloController implements Initializable{
         if(pokeList != null) {
             pokeList.clear();
         }
-        test(pokeCombo.getValue());
+        //test(pokeCombo.getValue(), true);
+        test("test.json", true);
         updateImages();
         imageCount = 0;
     }
@@ -351,17 +360,22 @@ public class HelloController implements Initializable{
         updateImages();
     }
     public void WriteJSON() {
-        JSONObject pokemonObject = new JSONObject();
         JSONArray pokemonList = new JSONArray();
         for (PokemonManager pokemon: pokeList) {
             JSONObject pokemonDetails = new JSONObject();
+            pokemonDetails.put("id", pokemon.getId());
             pokemonDetails.put("name", pokemon.getName());
-            pokemonDetails.put("nationalPokedexNumbers", pokemon.getNationalPokedexNumbers());
+            JSONArray nationalPokedexNumbers = new JSONArray();
+            if(!pokemon.getNationalPokedexNumbers().equals("NA")) {
+                nationalPokedexNumbers.add(Integer.parseInt(pokemon.getNationalPokedexNumbers()));
+                pokemonDetails.put("nationalPokedexNumbers", nationalPokedexNumbers);
+            }
             pokemonDetails.put("number", pokemon.getNumber());
-            pokemonDetails.put("largeImage", pokemon.getLargeImage());
+            JSONObject images = new JSONObject();
+            images.put("large", pokemon.getLargeImage());
+            pokemonDetails.put("images", images);
             pokemonDetails.put("hasCard", pokemon.getHasCard());
-            pokemonObject.put(pokemon.getId(), pokemonDetails);
-            pokemonList.add(pokemonObject);
+            pokemonList.add(pokemonDetails);
         }
 
         //Write JSON file

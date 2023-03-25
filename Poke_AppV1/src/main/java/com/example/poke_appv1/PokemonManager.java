@@ -9,13 +9,13 @@ public class PokemonManager {
 
     private boolean hasCard;
 
-    public PokemonManager(String id, String name, String nationalPokedexNumbers, String number, String largeImage) {
+    public PokemonManager(String id, String name, String nationalPokedexNumbers, String number, String largeImage, boolean hasCard) {
         this.id = id;
         this.name = name;
         this.nationalPokedexNumbers = nationalPokedexNumbers;
         this.number = number;
         this.largeImage = largeImage;
-        this.hasCard = false;
+        this.hasCard = hasCard;
     }
 
     public String getId() {
