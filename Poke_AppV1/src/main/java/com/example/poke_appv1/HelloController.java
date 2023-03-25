@@ -20,10 +20,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -349,8 +346,12 @@ public class HelloController implements Initializable{
         if(pokeList != null) {
             pokeList.clear();
         }
-        //test(pokeCombo.getValue(), true);
-        test("test.json", true);
+        File f = new File("pokemon-tcg-data\\cards\\en\\test.json");
+        if(f.exists()) {
+            test("test.json", true);
+        } else {
+            test(pokeCombo.getValue(), false);
+        }
         updateImages();
         imageCount = 0;
     }
@@ -379,7 +380,7 @@ public class HelloController implements Initializable{
         }
 
         //Write JSON file
-        try (FileWriter file = new FileWriter("test.json")) {
+        try (FileWriter file = new FileWriter("pokemon-tcg-data\\cards\\en\\test.json")) {
             file.write(pokemonList.toJSONString());
             file.flush();
 
